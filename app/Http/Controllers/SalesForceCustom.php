@@ -12,10 +12,9 @@ class SalesForceCustom extends Controller
 
     // generates a bearer token for salesforce OAuth 
     public function getToken()
-
     {
         // asForm sends it as x-www-form-urlencoded
-        $response = Http::asForm()->post('https://login.salesforce.com/services/oauth2/token', [
+        $response = Http::asForm()->post(env('SF_LOGIN_URL') . '/services/oauth2/token', [
             'grant_type' =>  env('SF_AUTH_METHOD'), // "password" in this case
             'client_id' =>  env('SF_CLIENT_ID'),
             'client_secret' => env('SF_CLIENT_SECRET'),
@@ -43,9 +42,9 @@ class SalesForceCustom extends Controller
         $data = [];
 
         $data["RecordTypeId"] =   $partnerOneRecordId;
-        $data["FirstName"] = 'Test 2';
-        $data["LastName"] = 'ContactID';
-        $data["Email__c"] = 'test.contactID02@test.com';
+        $data["FirstName"] = 'Test';
+        $data["LastName"] = ' 4';
+        $data["Email__c"] = 'test.04@tikweb.com';
         $data["Wedding_date__c"] = '2023-08-03';
         $data["Country__c"] = 'SE';
         $data["CurrencyIsoCode"] = 'SEK'; // use the currency validator function created before
@@ -54,9 +53,11 @@ class SalesForceCustom extends Controller
 
         $this->getToken();
 
-        $response = Http::acceptJson()->withToken($this->access_token)->post($this->instance_url . '/services/data/v53.0/sobjects/Account', $data);
+        $response = Http::acceptJson()
+            ->withToken($this->access_token)
+            ->post($this->instance_url . '/services/data/v53.0/sobjects/Account', $data);
 
-        return $response;
+        return $response->json();
     }
 
     // for salesforce marketing cloud
@@ -82,11 +83,11 @@ class SalesForceCustom extends Controller
         $eventDefKey = 'eventdefkey';
 
         $body = [];
-        $data = [];
 
         $body['ContactKey'] = 'test.something@gmail.com';
         $body['EventDefinitionKey'] = $eventDefKey;
 
+        $data = [];
         $data['resetLink'] = 'https://something.something';
         $data['email'] = 'test.tikweb.1@gmail.com';
         $data['market'] = 'Sweden';
@@ -97,9 +98,9 @@ class SalesForceCustom extends Controller
         $body['Data'] = $data;
 
 
-        $response = Http::withToken(
-            $token['access_token']
-        )->post($host . '/interaction/v1/events', $body);
+        $response = Http::acceptJson()
+            ->withToken($token['access_token'])
+            ->post($host . '/interaction/v1/events', $body);
 
         return $response->json();
     }
