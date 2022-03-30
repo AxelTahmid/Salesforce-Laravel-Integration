@@ -1,6 +1,6 @@
 # Laravel Salesforce OAuth Rest Api
 
-`Axel Tahmid` `www.tahmid.org` `axel.tahmid@gmail.com` `bjsmasth` `laravel salesforce OAuth`
+`Axel Tahmid` `www.tahmid.org` `axel.tahmid@gmail.com` `laravel salesforce OAuth`
 
 # Getting Started
 
