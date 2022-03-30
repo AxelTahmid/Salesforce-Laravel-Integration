@@ -2,6 +2,6 @@
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-This was created with reference to official salesforce postman <a href="https://www.postman.com/salesforce-developers/workspace/salesforce-developers">documentation</a>
+This was created with reference to official salesforce postman <a href="https://www.postman.com/salesforce-developers/workspace/salesforce-developers">workspace</a> using Laravel HTTP Client aka Guzzle HTTP
 
--   The http requests are from Guzzle.
+-   Guzzle HTTP.

@@ -9,11 +9,14 @@ class SalesForceCustom extends Controller
     protected $access_token;
     protected $instance_url;
 
+
+    // generates a bearer token for salesforce OAuth 
     public function getToken()
 
     {
+        // asForm sends it as x-www-form-urlencoded
         $response = Http::asForm()->post('https://login.salesforce.com/services/oauth2/token', [
-            'grant_type' =>  env('SF_AUTH_METHOD'),
+            'grant_type' =>  env('SF_AUTH_METHOD'), // "password" in this case
             'client_id' =>  env('SF_CLIENT_ID'),
             'client_secret' => env('SF_CLIENT_SECRET'),
             'username' =>   env('SF_USERNAME'),
@@ -21,12 +24,13 @@ class SalesForceCustom extends Controller
         ]);
 
         if ($response->failed()) {
+            // try catch will work if GuzzleException is used
             return response($response, 400);
         } else {
             $this->access_token = $response['access_token'];
             $this->instance_url = $response['instance_url'];
 
-            return response('access_token created', 201);
+            return response('access_token: ' . $this->access_token, 201);
         }
     }
 
@@ -55,7 +59,7 @@ class SalesForceCustom extends Controller
         return $response;
     }
 
-
+    // for salesforce marketing cloud
     public function sfmcToken()
     {
         $response = Http::post('https://' . env('SFMC_SUBDOMAIN') . '.auth.marketingcloudapis.com/v2/token', [
@@ -68,6 +72,7 @@ class SalesForceCustom extends Controller
         return $response->json();
     }
 
+    // salesforce marketing cloud trigger
     public function sendResetEmail()
     {
         $token = $this->sfmcToken();
