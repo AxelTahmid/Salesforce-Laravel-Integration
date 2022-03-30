@@ -25,5 +25,5 @@ Route::get('/', function () {
 Route::prefix('sf')->group(function () {
     Route::get('mc-token', [SalesForceCustom::class, 'sfmcToken']);
     Route::get('token', [SalesForceCustom::class, 'getToken']);
-    Route::get('addTestUser', [SalesForceCustom::class, 'test']);
+    Route::get('test-route', [SalesForceCustom::class, 'test']);
 });
